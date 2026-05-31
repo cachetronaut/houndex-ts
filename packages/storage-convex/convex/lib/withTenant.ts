@@ -13,9 +13,9 @@
 
 import { type TenantContext, TenantRole, tenantIdSchema } from '@houndex/core';
 import { v } from 'convex/values';
-import { customMutation, customQuery } from 'convex-helpers/server/customFunctions';
+import { customAction, customMutation, customQuery } from 'convex-helpers/server/customFunctions';
 import { z } from 'zod';
-import { mutation, query } from '../_generated/server';
+import { action, mutation, query } from '../_generated/server';
 import { literalUnion } from './validators';
 
 const tenantSchema = z.object({
@@ -53,3 +53,4 @@ const consumeTenantArg = {
 
 export const queryWithTenant = customQuery(query, consumeTenantArg);
 export const mutationWithTenant = customMutation(mutation, consumeTenantArg);
+export const actionWithTenant = customAction(action, consumeTenantArg);

@@ -41,6 +41,10 @@ export interface ConvexClientLike {
     ref: Q,
     args: FunctionArgs<Q>,
   ): Promise<FunctionReturnType<Q>>;
+  action<A extends FunctionReference<'action'>>(
+    ref: A,
+    args: FunctionArgs<A>,
+  ): Promise<FunctionReturnType<A>>;
 }
 
 interface ClaimRowLike {
@@ -165,6 +169,16 @@ export class ConvexStorageAdapter implements StorageAdapter {
   }
 
   async searchClaims(input: ClaimSearchInput): Promise<Claim[]> {
+    if (input.queryVector !== undefined) {
+      const rows = await this.client.action(api.claims.vectorSearchClaims, {
+        tenant: input.tenant,
+        queryVector: Array.from(input.queryVector),
+        subject: input.subject,
+        category: input.category,
+        limit: input.limit,
+      });
+      return rows.map(toClaim);
+    }
     const rows = await this.client.query(api.claims.searchClaims, {
       tenant: input.tenant,
       subject: input.subject,

@@ -56,7 +56,17 @@ export default defineSchema({
   })
     .index('by_tenant', ['tenantId'])
     .index('by_tenant_claim', ['tenantId', 'claimId'])
-    .index('by_tenant_subject', ['tenantId', 'subject']),
+    .index('by_tenant_subject', ['tenantId', 'subject'])
+    // Cosine ANN over the embedding. `tenantId` is a filter field so the search
+    // itself is tenant-scoped (the security boundary); subject/category are
+    // post-filtered in the action, since a vector filter can only constrain one
+    // field. Dimension matches OpenAI text-embedding-3-small — change to suit
+    // your model.
+    .vectorIndex('by_embedding', {
+      vectorField: 'embedding',
+      dimensions: 1536,
+      filterFields: ['tenantId'],
+    }),
 
   sources: defineTable({
     tenantId: v.string(),

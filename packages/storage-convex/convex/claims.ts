@@ -6,8 +6,14 @@ import {
   SOURCE_TIER_VALUES,
 } from '@houndex/core';
 import { v } from 'convex/values';
+import { internal } from './_generated/api';
+import type { Doc } from './_generated/dataModel';
+import { internalQuery } from './_generated/server';
 import { literalUnion } from './lib/validators';
-import { mutationWithTenant, queryWithTenant } from './lib/withTenant';
+import { actionWithTenant, mutationWithTenant, queryWithTenant } from './lib/withTenant';
+
+const VECTOR_SEARCH_MAX = 256;
+const DEFAULT_MATCH_COUNT = 10;
 
 const claimFields = {
   claimId: v.string(),
@@ -72,5 +78,62 @@ export const searchClaims = queryWithTenant({
     const filtered =
       args.category === undefined ? rows : rows.filter((r) => r.category === args.category);
     return args.limit === undefined ? filtered : filtered.slice(0, args.limit);
+  },
+});
+
+/**
+ * Internal: load claims by id (in the given order), re-asserting the tenant and
+ * post-filtering by subject/category. Vector search runs in an action without
+ * `ctx.db`, so it delegates the document load to this query.
+ */
+export const loadClaimsByIds = internalQuery({
+  args: {
+    ids: v.array(v.id('claims')),
+    tenantId: v.string(),
+    subject: v.optional(v.string()),
+    category: v.optional(literalUnion(CATEGORY_VALUES)),
+  },
+  handler: async (ctx, args): Promise<Doc<'claims'>[]> => {
+    const out: Doc<'claims'>[] = [];
+    for (const id of args.ids) {
+      const doc = await ctx.db.get(id);
+      if (doc === null || doc.tenantId !== args.tenantId) continue;
+      if (args.subject !== undefined && doc.subject !== args.subject) continue;
+      if (args.category !== undefined && doc.category !== args.category) continue;
+      out.push(doc);
+    }
+    return out;
+  },
+});
+
+/**
+ * Cosine ANN over claim embeddings, scoped to the tenant by the vector index's
+ * filter field. Returns claims ordered most-similar first. subject/category are
+ * post-filtered (a vector search can only constrain one field), so when either
+ * is set we over-fetch candidates and then narrow.
+ */
+export const vectorSearchClaims = actionWithTenant({
+  args: {
+    queryVector: v.array(v.float64()),
+    subject: v.optional(v.string()),
+    category: v.optional(literalUnion(CATEGORY_VALUES)),
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args): Promise<Doc<'claims'>[]> => {
+    const tenantId = ctx.tenant.tenantId;
+    const limit = args.limit ?? DEFAULT_MATCH_COUNT;
+    const narrowing = args.subject !== undefined || args.category !== undefined;
+    const results = await ctx.vectorSearch('claims', 'by_embedding', {
+      vector: args.queryVector,
+      limit: narrowing ? VECTOR_SEARCH_MAX : limit,
+      filter: (q) => q.eq('tenantId', tenantId),
+    });
+    const docs: Doc<'claims'>[] = await ctx.runQuery(internal.claims.loadClaimsByIds, {
+      ids: results.map((r) => r._id),
+      tenantId,
+      subject: args.subject,
+      category: args.category,
+    });
+    return docs.slice(0, limit);
   },
 });
