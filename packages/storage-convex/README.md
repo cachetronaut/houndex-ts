@@ -39,10 +39,9 @@ pnpm exec convex dev --once   # logs in, links a dev deployment, pushes, runs co
 pnpm exec convex deploy       # production
 ```
 
-`convex dev` runs real codegen into `convex/_generated/`. The committed
-`_generated` files are a hand-maintained equivalent of that output, so the
-package builds and tests offline before any deployment exists; `pnpm codegen`
-regenerates them against your deployment.
+`convex dev` runs real codegen into `convex/_generated/`. Those generated files
+are committed, so the package builds and tests offline before you link your own
+deployment; regenerate them any time with `pnpm codegen` (or `convex dev`).
 
 ## Testing
 
