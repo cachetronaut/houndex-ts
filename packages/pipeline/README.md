@@ -17,6 +17,9 @@ results are reproducible.
 - **Orchestrator** — `runIngestion` ties the steps together over injected
   provider ports (scrape, extract, embed) and a `StorageAdapter`. The
   dependencies are parameters, so you choose the providers and storage.
+- **Processing bridge** — `discoverPages` and `processPages` expose the
+  discovery and processing halves separately, so connector packages can reuse
+  the deterministic classify/chunk/extract/embed/sink path.
 
 ## Usage
 

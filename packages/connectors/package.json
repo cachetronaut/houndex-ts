@@ -1,0 +1,26 @@
+{
+  "name": "@houndex/connectors",
+  "version": "0.1.0",
+  "description": "Deterministic source connectors that feed Houndex ingestion with scraped pages.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@houndex/core": "workspace:*",
+    "@houndex/pipeline": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.8"
+  }
+}

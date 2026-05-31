@@ -12,9 +12,11 @@
 import type {
   Embedder,
   ExtractedClaim,
+  ScrapedPage,
   Scraper,
   SearchPlan,
   SearchProvider,
+  SearchResult,
   SourceTier,
 } from '@houndex/core';
 import { chunkText } from './chunker.js';
@@ -42,10 +44,16 @@ export type ClaimSink = (claim: ExtractedClaimWithContext & { embedding?: number
   created: boolean;
 }>;
 
-export interface IngestionDeps {
+export interface DiscoverDeps {
   plan: (input: IngestionInput) => Promise<SearchPlan>;
   search: SearchProvider;
   scrape: Scraper;
+  maxResultsPerQuery?: number;
+  maxPages?: number;
+  onPageError?: (event: { sourceUrl: string; error: unknown }) => void;
+}
+
+export interface ProcessDeps {
   classifier: SourceTierClassifier;
   extract: (input: {
     subject: string;
@@ -55,11 +63,11 @@ export interface IngestionDeps {
   }) => Promise<ExtractionOutcome>;
   sink: ClaimSink;
   embed?: Embedder;
-  maxResultsPerQuery?: number;
-  maxPages?: number;
   extractionConcurrency?: number;
   onPageError?: (event: { sourceUrl: string; error: unknown }) => void;
 }
+
+export type IngestionDeps = DiscoverDeps & ProcessDeps;
 
 const DEFAULT_MAX_PAGES = 25;
 const DEFAULT_EXTRACTION_CONCURRENCY = 4;
@@ -74,13 +82,13 @@ export interface IngestionResult {
   scrapedHashes: string[];
 }
 
-export async function runIngestion(
+export async function discoverPages(
   input: IngestionInput,
-  deps: IngestionDeps,
-): Promise<IngestionResult> {
+  deps: DiscoverDeps,
+): Promise<ScrapedPage[]> {
   const plan = await deps.plan(input);
 
-  const allResults = [];
+  const allResults: SearchResult[] = [];
   for (const query of plan.queries) {
     const results = await deps.search.search(query.query, deps.maxResultsPerQuery);
     allResults.push(...results);
@@ -88,6 +96,25 @@ export async function runIngestion(
   const maxPages = deps.maxPages ?? DEFAULT_MAX_PAGES;
   const unique = dedupeByUrl(allResults).slice(0, maxPages);
 
+  const scraped = await Promise.all(
+    unique.map(async (source): Promise<ScrapedPage | null> => {
+      try {
+        return await deps.scrape.scrape(source.url);
+      } catch (error) {
+        deps.onPageError?.({ sourceUrl: source.url, error });
+        return null;
+      }
+    }),
+  );
+
+  return scraped.filter((page): page is ScrapedPage => page !== null);
+}
+
+export async function processPages(
+  pages: readonly ScrapedPage[],
+  input: IngestionInput,
+  deps: ProcessDeps,
+): Promise<IngestionResult> {
   const result: IngestionResult = {
     pagesScraped: 0,
     pagesFailed: 0,
@@ -98,35 +125,23 @@ export async function runIngestion(
     scrapedHashes: [],
   };
 
-  const scraped = await Promise.all(
-    unique.map(async (source) => {
-      try {
-        return await deps.scrape.scrape(source.url);
-      } catch (error) {
-        deps.onPageError?.({ sourceUrl: source.url, error });
-        return null;
-      }
-    }),
-  );
-
   const seenHashes = new Set<string>();
-  const pages = [];
-  for (const page of scraped) {
-    if (page === null) continue;
+  const uniquePages = [];
+  for (const page of pages) {
     const hash = contentHash(page.text);
     if (seenHashes.has(hash)) continue;
     seenHashes.add(hash);
     result.pagesScraped += 1;
     result.scrapedHashes.push(hash);
-    pages.push(page);
+    uniquePages.push(page);
   }
 
   type PageOutcome = { kept: ExtractedClaimWithContext[]; embedding?: number[] };
   const concurrency = Math.max(1, deps.extractionConcurrency ?? DEFAULT_EXTRACTION_CONCURRENCY);
   const sinkable: PageOutcome[] = [];
 
-  for (let offset = 0; offset < pages.length; offset += concurrency) {
-    const batch = pages.slice(offset, offset + concurrency);
+  for (let offset = 0; offset < uniquePages.length; offset += concurrency) {
+    const batch = uniquePages.slice(offset, offset + concurrency);
     const outcomes = await Promise.all(
       batch.map(async (page): Promise<PageOutcome | null> => {
         const sourceTier = deps.classifier.classify(page.sourceUrl, input.subject);
@@ -169,4 +184,12 @@ export async function runIngestion(
   }
 
   return result;
+}
+
+export async function runIngestion(
+  input: IngestionInput,
+  deps: IngestionDeps,
+): Promise<IngestionResult> {
+  const pages = await discoverPages(input, deps);
+  return processPages(pages, input, deps);
 }
