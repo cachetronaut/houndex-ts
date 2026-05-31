@@ -1,0 +1,43 @@
+{
+  "name": "houndex-ts",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A storage-decoupled, last-mile RAG framework: typed output envelopes, tenant-aware evidence stores, citation verification, and pluggable storage adapters.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "test": "pnpm -r test",
+    "cleanroom": "node scripts/cleanroom-guard.mjs",
+    "verify": "pnpm check && pnpm typecheck && pnpm test && pnpm cleanroom",
+    "changeset": "changeset",
+    "release": "changeset publish"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.6",
+    "@changesets/cli": "^2.27.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": [
+        "darwin",
+        "linux"
+      ],
+      "cpu": [
+        "arm64",
+        "x64"
+      ]
+    }
+  }
+}

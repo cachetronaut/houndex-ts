@@ -1,0 +1,25 @@
+{
+  "name": "houndex/storage-local",
+  "version": "0.1.0",
+  "description": "Zero-service, in-memory reference implementation of the framework StorageAdapter contract. Ideal for tests, local development, and as a conformance reference for other adapters.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "houndex/core": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.8"
+  }
+}

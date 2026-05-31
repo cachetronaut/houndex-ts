@@ -1,0 +1,26 @@
+{
+  "name": "houndex/evals",
+  "version": "0.1.0",
+  "description": "Deterministic regression/evaluation harness for the framework: fixture schema, generic output-envelope rubric scoring, canonical-JSON hashing, and report generation.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "houndex/core": "workspace:*",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.8"
+  }
+}

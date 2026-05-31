@@ -1,0 +1,28 @@
+# Node / pnpm
+node_modules/
+.pnpm-store/
+pnpm-debug.log
+npm-debug.log
+yarn-error.log
+
+# TypeScript build output
+dist/
+build/
+*.tsbuildinfo
+
+# Test + coverage
+coverage/
+.nyc_output/
+.vitest/
+
+# Local data + secrets
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
