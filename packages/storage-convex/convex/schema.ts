@@ -2,7 +2,7 @@
  * Convex schema for the framework evidence store. Every table carries
  * `tenantId` and leads with a `by_tenant` index, so tenant-scoped reads are
  * O(log n) and cross-tenant bleed is structurally impossible. Closed-vocabulary
- * columns derive their literals from the houndex/core taxonomy value-arrays
+ * columns derive their literals from the @houndex/core taxonomy value-arrays
  * via `literalUnion`, so the core schemas are the single source of truth.
  */
 
@@ -14,7 +14,7 @@ import {
   POLARITY_VALUES,
   SCOPE_VALUES,
   SOURCE_TIER_VALUES,
-} from 'houndex/core';
+} from '@houndex/core';
 import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 import { literalUnion } from './lib/validators';

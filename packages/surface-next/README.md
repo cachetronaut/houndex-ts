@@ -1,4 +1,4 @@
-# houndex/surface-next — planned
+# @houndex/surface-next — planned
 
 Optional Next.js UI surface (ingestion, curation, chat, citation verdicts,
 provenance) built on synthetic data only. Not yet implemented — see the

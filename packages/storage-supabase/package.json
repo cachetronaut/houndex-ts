@@ -1,5 +1,5 @@
 {
-  "name": "houndex/storage-supabase",
+  "name": "@houndex/storage-supabase",
   "version": "0.1.0",
   "description": "Supabase (Postgres + pgvector) implementation of the framework StorageAdapter contract: SQL migrations, tenant policies, vector search, and a client adapter.",
   "type": "module",
@@ -18,7 +18,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "houndex/core": "workspace:*"
+    "@houndex/core": "workspace:*"
   },
   "peerDependencies": {
     "@supabase/supabase-js": "^2.45.0"

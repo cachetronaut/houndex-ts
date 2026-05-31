@@ -11,7 +11,7 @@
  *    sub-score is `null` and the weight renormalizes across the rest.
  */
 
-import { canonicalJson, type JsonValue, outputEnvelopeSchema, sha256Hex } from 'houndex/core';
+import { canonicalJson, type JsonValue, outputEnvelopeSchema, sha256Hex } from '@houndex/core';
 import { z } from 'zod';
 import type { EvalFixture } from './fixture.js';
 

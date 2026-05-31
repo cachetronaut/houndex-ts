@@ -1,5 +1,5 @@
 {
-  "name": "houndex/storage-local",
+  "name": "@houndex/storage-local",
   "version": "0.1.0",
   "description": "Zero-service, in-memory reference implementation of the framework StorageAdapter contract. Ideal for tests, local development, and as a conformance reference for other adapters.",
   "type": "module",
@@ -17,7 +17,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "houndex/core": "workspace:*"
+    "@houndex/core": "workspace:*"
   },
   "devDependencies": {
     "vitest": "^2.1.8"

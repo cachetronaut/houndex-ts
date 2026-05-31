@@ -7,7 +7,7 @@
  * tallied from the `tier` attribute on the claim's `cites_source` edges.
  */
 
-import { type EdgeKind, type Enrichment, EnrichmentSchema, type SourceTier } from 'houndex/core';
+import { type EdgeKind, type Enrichment, EnrichmentSchema, type SourceTier } from '@houndex/core';
 
 const CORROBORATION_KINDS: readonly EdgeKind[] = ['reinforces', 'refines', 'duplicates'];
 

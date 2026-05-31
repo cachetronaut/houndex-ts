@@ -1,4 +1,4 @@
-# houndex/storage-supabase
+# @houndex/storage-supabase
 
 Supabase (Postgres + pgvector) implementation of the framework `StorageAdapter`
 contract.
@@ -15,7 +15,7 @@ It ships two things:
 
 ```ts
 import { createClient } from '@supabase/supabase-js';
-import { SupabaseStorageAdapter, type SupabaseLike } from 'houndex/storage-supabase';
+import { SupabaseStorageAdapter, type SupabaseLike } from '@houndex/storage-supabase';
 
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 const adapter = new SupabaseStorageAdapter(supabase as unknown as SupabaseLike);

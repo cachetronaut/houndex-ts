@@ -1,4 +1,4 @@
-# houndex/storage-convex
+# @houndex/storage-convex
 
 Convex implementation of the framework `StorageAdapter` contract.
 
@@ -12,7 +12,7 @@ It ships two things:
 
 ```ts
 import { ConvexHttpClient } from 'convex/browser';
-import { ConvexStorageAdapter } from 'houndex/storage-convex';
+import { ConvexStorageAdapter } from '@houndex/storage-convex';
 
 const adapter = new ConvexStorageAdapter(new ConvexHttpClient(process.env.CONVEX_URL!));
 ```

@@ -4,7 +4,7 @@ import {
   POLARITY_VALUES,
   SCOPE_VALUES,
   SOURCE_TIER_VALUES,
-} from 'houndex/core';
+} from '@houndex/core';
 import { v } from 'convex/values';
 import { literalUnion } from './lib/validators';
 import { mutationWithTenant, queryWithTenant } from './lib/withTenant';

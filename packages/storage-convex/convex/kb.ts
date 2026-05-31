@@ -1,4 +1,4 @@
-import { CATEGORY_VALUES, KB_ACTION_VALUES } from 'houndex/core';
+import { CATEGORY_VALUES, KB_ACTION_VALUES } from '@houndex/core';
 import { v } from 'convex/values';
 import { literalUnion } from './lib/validators';
 import { mutationWithTenant, queryWithTenant } from './lib/withTenant';

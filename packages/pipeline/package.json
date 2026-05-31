@@ -1,5 +1,5 @@
 {
-  "name": "houndex/pipeline",
+  "name": "@houndex/pipeline",
   "version": "0.1.0",
   "description": "Deterministic ingestion and enrichment transforms for the framework: chunking, content-hash dedupe, source tiering, claim assembly, and enrichment.",
   "type": "module",
@@ -17,7 +17,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "houndex/core": "workspace:*",
+    "@houndex/core": "workspace:*",
     "zod": "^3.24.1"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@ import {
   type Edge,
   tenantPrimary,
   tenantSecondary,
-} from 'houndex/core';
+} from '@houndex/core';
 import { describe, expect, it } from 'vitest';
 import { LocalStorageAdapter } from './localStorageAdapter.js';
 

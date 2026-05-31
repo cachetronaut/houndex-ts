@@ -1,4 +1,4 @@
-import type { SearchPlan } from 'houndex/core';
+import type { SearchPlan } from '@houndex/core';
 import { describe, expect, it } from 'vitest';
 import {
   type ExtractedClaimWithContext,

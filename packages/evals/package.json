@@ -1,5 +1,5 @@
 {
-  "name": "houndex/evals",
+  "name": "@houndex/evals",
   "version": "0.1.0",
   "description": "Deterministic regression/evaluation harness for the framework: fixture schema, generic output-envelope rubric scoring, canonical-JSON hashing, and report generation.",
   "type": "module",
@@ -17,7 +17,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "houndex/core": "workspace:*",
+    "@houndex/core": "workspace:*",
     "zod": "^3.24.1"
   },
   "devDependencies": {

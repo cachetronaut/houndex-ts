@@ -1,4 +1,4 @@
-import { EDGE_KIND_VALUES, edgeIdempotencyKey } from 'houndex/core';
+import { EDGE_KIND_VALUES, edgeIdempotencyKey } from '@houndex/core';
 import { v } from 'convex/values';
 import { literalUnion } from './lib/validators';
 import { mutationWithTenant } from './lib/withTenant';

@@ -1,5 +1,5 @@
 {
-  "name": "houndex/core",
+  "name": "@houndex/core",
   "version": "0.1.0",
   "description": "Core contracts for a storage-decoupled, last-mile RAG framework: schemas, output envelopes, tenant context, provider ports, and the storage adapter interface.",
   "type": "module",

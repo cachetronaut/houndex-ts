@@ -16,7 +16,7 @@ import type {
   SearchPlan,
   SearchProvider,
   SourceTier,
-} from 'houndex/core';
+} from '@houndex/core';
 import { chunkText } from './chunker.js';
 import { contentHash, dedupeByUrl } from './contentHash.js';
 import type { SourceTierClassifier } from './sourceTier.js';

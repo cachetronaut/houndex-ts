@@ -11,7 +11,7 @@
  * these and resolve the context from its own identity provider.)
  */
 
-import { type TenantContext, TenantRole, tenantIdSchema } from 'houndex/core';
+import { type TenantContext, TenantRole, tenantIdSchema } from '@houndex/core';
 import { v } from 'convex/values';
 import { customMutation, customQuery } from 'convex-helpers/server/customFunctions';
 import { z } from 'zod';

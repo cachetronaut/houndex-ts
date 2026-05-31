@@ -1,4 +1,4 @@
-import { type Claim, computeClaimId } from 'houndex/core';
+import { type Claim, computeClaimId } from '@houndex/core';
 import { convexTest } from 'convex-test';
 import { describe, expect, it } from 'vitest';
 import schema from '../convex/schema.js';

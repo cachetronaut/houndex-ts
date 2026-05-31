@@ -8,7 +8,7 @@
  * languages ever diverge, one of them fails here.
  *
  * Regenerate the committed vectors after an intentional change:
- *   UPDATE_PARITY=1 pnpm --filter houndex/core test
+ *   UPDATE_PARITY=1 pnpm --filter @houndex/core test
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';

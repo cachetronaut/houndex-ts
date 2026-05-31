@@ -1,5 +1,5 @@
 {
-  "name": "houndex/storage-convex",
+  "name": "@houndex/storage-convex",
   "version": "0.1.0",
   "description": "Convex implementation of the framework StorageAdapter contract: a tenant-scoped Convex schema + functions and a client-side adapter.",
   "type": "module",
@@ -19,7 +19,7 @@
     "codegen": "convex codegen"
   },
   "dependencies": {
-    "houndex/core": "workspace:*",
+    "@houndex/core": "workspace:*",
     "convex": "^1.17.0",
     "convex-helpers": "^0.1.94",
     "zod": "^3.24.1"

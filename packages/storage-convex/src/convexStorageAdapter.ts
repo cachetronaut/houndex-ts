@@ -27,7 +27,7 @@ import type {
   UpsertResult,
   UpsertSourceInput,
   VerificationOverrideInput,
-} from 'houndex/core';
+} from '@houndex/core';
 import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server';
 import { api } from '../convex/_generated/api.js';
 
