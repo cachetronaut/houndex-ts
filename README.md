@@ -112,6 +112,40 @@ Verification in Houndex is evidence-relative. It can tell you whether an answer 
 | `@houndex/connectors` | Planned | Source connectors for files, web, GitHub, docs, and custom tools |
 | `@houndex/surface-next` | Planned | Optional Next.js curation, provenance, and citation review UI |
 
+Every Active package is implemented in both TypeScript and Python. Shared parity
+fixtures keep claim identity, canonical JSON, and the synthetic embedder
+byte-for-byte identical across the two languages.
+
+## Quickstart
+
+The packages are not yet published to npm. Run them from a clone of this
+repository.
+
+```bash
+git clone https://github.com/cachetronaut/houndex-ts
+cd houndex-ts
+pnpm install
+pnpm verify
+```
+
+Verify a model answer against an evidence store with the CLI. The CLI reads
+`houndex.config.json` and defaults to an in-memory store, so it needs no
+services:
+
+```bash
+pnpm --filter @houndex/cli run houndex -- init
+pnpm --filter @houndex/cli run houndex -- verify answer.json
+```
+
+`verify` checks that the answer envelope is schema-valid and that every cited
+claim resolves to a stored claim. It exits `0` when the answer is grounded, `1`
+when a citation does not resolve or the envelope is invalid, and `2` on an
+operational error such as a missing file. Use the exit code as a CI gate.
+
+In application code, call the same engine in-process on each answer through
+`@houndex/evals` (`scoreEnvelope`). The CLI and the library share one engine, so
+their verdicts are identical.
+
 ## Design principles
 
 ### Storage-decoupled
@@ -138,20 +172,48 @@ Houndex is designed for workflows where humans may approve, reject, edit, or ove
 
 Every serious knowledge system needs regression tests. Houndex treats evals as part of the framework, not an afterthought.
 
-## Current status
+## Roadmap
 
-Houndex is early and under active development.
+Houndex is early and under active development. The contracts are stable enough to
+build on; the surface area is still growing.
 
-The first milestone is a clean core with shared contracts across TypeScript and Python, followed by local storage, Supabase storage, basic ingestion, typed output envelopes, and citation verification.
+Shipped, in both TypeScript and Python:
+
+- `core` contracts, the deterministic `pipeline`, three storage adapters
+  (`storage-local`, `storage-supabase`, `storage-convex`), the `evals` harness,
+  and the `cli`.
+
+Planned, in roughly this order:
+
+1. `@houndex/connectors` — source connectors that normalize files, web pages,
+   GitHub repositories, and docs into Houndex sources and claims. Planned for
+   both languages.
+2. `@houndex/surface-next` — an optional Next.js application for curating claims,
+   reviewing provenance, and inspecting citations on synthetic data. TypeScript
+   only.
+3. Publishing to npm and PyPI, with semantic-versioned releases.
 
 ## Development
 
-Requires Node 22 and pnpm 9.
+Requires Node 24 (pinned in `.nvmrc`) and pnpm 9.
 
 ```bash
 pnpm install
 pnpm verify
 ```
+
+`pnpm verify` runs the full local gate: `pnpm check` (Biome lint and format),
+`pnpm typecheck` (`tsc --noEmit`, strict), and `pnpm test` (Vitest). Run
+`node scripts/cleanroom-guard.mjs` to confirm no origin-specific terms appear in
+tracked files.
+
+The Supabase and Convex adapters carry live integration tests that are skipped
+unless their environment is configured:
+
+- Supabase: run `supabase start && supabase db reset`, then set `SUPABASE_URL`
+  and `SUPABASE_SERVICE_ROLE_KEY`.
+- Convex: run `pnpm exec convex dev --once` inside `packages/storage-convex`,
+  then set `CONVEX_URL`.
 
 ## License
 

@@ -5,7 +5,7 @@
   "description": "A storage-decoupled, last-mile RAG framework: typed output envelopes, tenant-aware evidence stores, citation verification, and pluggable storage adapters.",
   "type": "module",
   "engines": {
-    "node": ">=22.0.0",
+    "node": ">=24.0.0",
     "pnpm": ">=9.0.0"
   },
   "packageManager": "pnpm@9.12.0",
