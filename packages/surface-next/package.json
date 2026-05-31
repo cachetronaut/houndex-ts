@@ -1,0 +1,26 @@
+{
+  "name": "@houndex/surface-next",
+  "version": "0.1.0",
+  "description": "Optional Next.js review UI for curation, provenance, and citation inspection over synthetic Houndex data.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@houndex/cli": "workspace:*",
+    "@houndex/core": "workspace:*",
+    "@houndex/evals": "workspace:*",
+    "next": "^15.3.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "vitest": "^2.1.8"
+  }
+}

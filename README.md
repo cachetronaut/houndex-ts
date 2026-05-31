@@ -110,11 +110,12 @@ Verification in Houndex is evidence-relative. It can tell you whether an answer 
 | `@houndex/evals` | Active | Regression harness: fixture schema, envelope rubric scoring, reports |
 | `@houndex/cli` | Active | `init`, `doctor`, `ingest`, `ask`, `verify`, `eval` over a configured adapter |
 | `@houndex/connectors` | Active | Deterministic source connectors for files, explicit web URLs, GitHub repositories, and documentation sites |
-| `@houndex/surface-next` | Planned | Optional Next.js curation, provenance, and citation review UI |
+| `@houndex/surface-next` | Active | Optional Next.js curation, provenance, and citation review UI |
 
-Every Active package is implemented in both TypeScript and Python. Shared parity
-fixtures keep claim identity, canonical JSON, and the synthetic embedder
-byte-for-byte identical across the two languages.
+The core framework packages are implemented in both TypeScript and Python.
+Shared parity fixtures keep claim identity, canonical JSON, and the synthetic
+embedder byte-for-byte identical across the two languages. Surface packages are
+language-specific.
 
 ## Quickstart
 
@@ -186,10 +187,7 @@ Shipped, in both TypeScript and Python:
 
 Planned, in roughly this order:
 
-1. `@houndex/surface-next` — an optional Next.js application for curating claims,
-   reviewing provenance, and inspecting citations on synthetic data. TypeScript
-   only.
-2. Publishing to npm and PyPI, with semantic-versioned releases.
+1. Publishing to npm and PyPI, with semantic-versioned releases.
 
 ## Development
 
