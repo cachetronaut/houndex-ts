@@ -1,4 +1,4 @@
--- framework storage-supabase — initial schema.
+-- houndex storage-supabase — initial schema.
 --
 -- Postgres + pgvector. Every table carries `tenant_id` and is covered by a
 -- row-level-security policy keyed on the request's `tenant_id` JWT claim, so

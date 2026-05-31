@@ -100,10 +100,10 @@ importers:
       '@houndex/core':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
       '@supabase/supabase-js':
         specifier: ^2.45.0
         version: 2.106.2
-    devDependencies:
       vitest:
         specifier: ^2.1.8
         version: 2.1.9(@edge-runtime/vm@4.0.4)(@types/node@22.19.19)

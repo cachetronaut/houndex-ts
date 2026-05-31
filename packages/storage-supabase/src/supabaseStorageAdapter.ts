@@ -1,7 +1,7 @@
 /**
  * Supabase (Postgres + pgvector) implementation of `StorageAdapter`. Maps each
- * contract method to a tenant-scoped query against the tables defined in
- * `migrations/0001_init.sql`. Every read and write filters by `tenant_id`, so
+ * contract method to a tenant-scoped query against the tables defined in the
+ * repo's `supabase/migrations/`. Every read and write filters by `tenant_id`, so
  * isolation holds even when using a service-role key that bypasses RLS.
  */
 

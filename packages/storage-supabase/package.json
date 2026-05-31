@@ -1,7 +1,7 @@
 {
   "name": "@houndex/storage-supabase",
   "version": "0.1.0",
-  "description": "Supabase (Postgres + pgvector) implementation of the framework StorageAdapter contract: SQL migrations, tenant policies, vector search, and a client adapter.",
+  "description": "Supabase (Postgres + pgvector) implementation of the framework StorageAdapter contract: tenant policies, pgvector search, and a client adapter. Schema migrations live in the repo's supabase/ CLI directory.",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -9,8 +9,7 @@
     ".": "./src/index.ts"
   },
   "files": [
-    "src",
-    "migrations"
+    "src"
   ],
   "scripts": {
     "lint": "biome lint .",
@@ -29,6 +28,7 @@
     }
   },
   "devDependencies": {
+    "@supabase/supabase-js": "^2.45.0",
     "vitest": "^2.1.8"
   }
 }
