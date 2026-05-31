@@ -46,37 +46,37 @@ const TABLE = {
 const SEARCH_FN = 'houndex_search_claims';
 const DEFAULT_MATCH_COUNT = 10;
 
-function rowToClaim(r: Row): Claim {
+function rowToClaim(row: Row): Claim {
   return {
-    tenantId: r.tenant_id as string,
-    claimId: r.claim_id as string,
-    subject: r.subject as string,
-    category: r.category as Claim['category'],
-    polarity: r.polarity as Claim['polarity'],
-    scope: r.scope as Claim['scope'],
-    claimText: r.claim_text as string,
-    evidenceText: r.evidence_text as string,
-    confidence: r.confidence as Claim['confidence'],
-    sourceUrl: r.source_url as string,
-    sourceTier: r.source_tier as Claim['sourceTier'],
-    extractedAt: r.extracted_at as number,
+    tenantId: row.tenant_id as string,
+    claimId: row.claim_id as string,
+    subject: row.subject as string,
+    category: row.category as Claim['category'],
+    polarity: row.polarity as Claim['polarity'],
+    scope: row.scope as Claim['scope'],
+    claimText: row.claim_text as string,
+    evidenceText: row.evidence_text as string,
+    confidence: row.confidence as Claim['confidence'],
+    sourceUrl: row.source_url as string,
+    sourceTier: row.source_tier as Claim['sourceTier'],
+    extractedAt: row.extracted_at as number,
   };
 }
 
-function claimToRow(c: Claim, embedding?: readonly number[]): Row {
+function claimToRow(claim: Claim, embedding?: readonly number[]): Row {
   return {
-    tenant_id: c.tenantId,
-    claim_id: c.claimId,
-    subject: c.subject,
-    category: c.category,
-    polarity: c.polarity,
-    scope: c.scope,
-    claim_text: c.claimText,
-    evidence_text: c.evidenceText,
-    confidence: c.confidence,
-    source_url: c.sourceUrl,
-    source_tier: c.sourceTier,
-    extracted_at: c.extractedAt,
+    tenant_id: claim.tenantId,
+    claim_id: claim.claimId,
+    subject: claim.subject,
+    category: claim.category,
+    polarity: claim.polarity,
+    scope: claim.scope,
+    claim_text: claim.claimText,
+    evidence_text: claim.evidenceText,
+    confidence: claim.confidence,
+    source_url: claim.sourceUrl,
+    source_tier: claim.sourceTier,
+    extracted_at: claim.extractedAt,
     embedding: embedding ? Array.from(embedding) : null,
   };
 }

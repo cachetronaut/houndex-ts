@@ -58,10 +58,14 @@ describe('taxonomy', () => {
 
 describe('edgeIdempotencyKey', () => {
   it('is stable for the same triple and ignores attribute drift', () => {
-    const a = edgeIdempotencyKey({ srcId: 'claim:1', dstId: 'claim:2', kind: 'reinforces' });
-    const b = edgeIdempotencyKey({ srcId: 'claim:1', dstId: 'claim:2', kind: 'reinforces' });
-    expect(a).toBe(b);
-    expect(a).toMatch(/^[0-9a-f]{16}$/);
+    const firstKey = edgeIdempotencyKey({ srcId: 'claim:1', dstId: 'claim:2', kind: 'reinforces' });
+    const secondKey = edgeIdempotencyKey({
+      srcId: 'claim:1',
+      dstId: 'claim:2',
+      kind: 'reinforces',
+    });
+    expect(firstKey).toBe(secondKey);
+    expect(firstKey).toMatch(/^[0-9a-f]{16}$/);
   });
 
   it('differs when the kind differs', () => {

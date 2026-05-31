@@ -24,9 +24,9 @@ describe('computeEnrichment', () => {
   });
 
   it('is deterministic (same inputs -> byte-identical JSON)', () => {
-    const a = computeEnrichment({ claimId: CLAIM, edges });
-    const b = computeEnrichment({ claimId: CLAIM, edges });
-    expect(JSON.stringify(a)).toBe(JSON.stringify(b));
+    const firstEnrichment = computeEnrichment({ claimId: CLAIM, edges });
+    const secondEnrichment = computeEnrichment({ claimId: CLAIM, edges });
+    expect(JSON.stringify(firstEnrichment)).toBe(JSON.stringify(secondEnrichment));
   });
 
   it('ignores non-incident edges', () => {

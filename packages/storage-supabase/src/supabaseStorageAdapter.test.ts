@@ -63,22 +63,26 @@ class Table {
     return new Chain(this.rows, 'update', values);
   }
   async insert(rows: Row | Row[]): Promise<Resp<null>> {
-    for (const r of Array.isArray(rows) ? rows : [rows]) this.rows.push({ ...r });
+    for (const row of Array.isArray(rows) ? rows : [rows]) this.rows.push({ ...row });
     return { data: null, error: null };
   }
   async upsert(
     rows: Row | Row[],
     options?: { onConflict?: string; ignoreDuplicates?: boolean },
   ): Promise<Resp<null>> {
-    const cols = (options?.onConflict ?? '')
+    const conflictColumns = (options?.onConflict ?? '')
       .split(',')
-      .map((c) => c.trim())
+      .map((column) => column.trim())
       .filter(Boolean);
-    for (const r of Array.isArray(rows) ? rows : [rows]) {
-      const idx =
-        cols.length === 0 ? -1 : this.rows.findIndex((e) => cols.every((c) => e[c] === r[c]));
-      if (idx === -1) this.rows.push({ ...r });
-      else if (options?.ignoreDuplicates !== true) this.rows[idx] = { ...r };
+    for (const row of Array.isArray(rows) ? rows : [rows]) {
+      const existingIndex =
+        conflictColumns.length === 0
+          ? -1
+          : this.rows.findIndex((existingRow) =>
+              conflictColumns.every((column) => existingRow[column] === row[column]),
+            );
+      if (existingIndex === -1) this.rows.push({ ...row });
+      else if (options?.ignoreDuplicates !== true) this.rows[existingIndex] = { ...row };
     }
     return { data: null, error: null };
   }

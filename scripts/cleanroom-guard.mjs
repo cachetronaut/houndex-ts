@@ -68,8 +68,8 @@ for (const file of trackedFiles()) {
 
 if (violations.length > 0) {
   console.error('Clean-room guard FAILED — disallowed tokens found:\n');
-  for (const v of violations) {
-    console.error(`  ${v.file}:${v.line}  [${v.term}]  ${v.text}`);
+  for (const violation of violations) {
+    console.error(`  ${violation.file}:${violation.line}  [${violation.term}]  ${violation.text}`);
   }
   console.error(`\n${violations.length} violation(s). See scripts/cleanroom-guard.mjs.`);
   process.exit(1);

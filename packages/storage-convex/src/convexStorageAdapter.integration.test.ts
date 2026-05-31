@@ -33,11 +33,13 @@ function tenant(suffix: string): TenantContext {
 }
 
 function unitVector(seed: number): number[] {
-  const raw = Array.from({ length: EMBEDDING_DIM }, (_, i) =>
-    i === seed % EMBEDDING_DIM ? 1 : 0.01,
+  const components = Array.from({ length: EMBEDDING_DIM }, (_, index) =>
+    index === seed % EMBEDDING_DIM ? 1 : 0.01,
   );
-  const norm = Math.sqrt(raw.reduce((acc, x) => acc + x * x, 0));
-  return raw.map((x) => x / norm);
+  const magnitude = Math.sqrt(
+    components.reduce((sum, component) => sum + component * component, 0),
+  );
+  return components.map((component) => component / magnitude);
 }
 
 function makeClaim(tenantId: string, overrides: Partial<Claim> = {}): Claim {
@@ -70,12 +72,14 @@ describe.skipIf(!live)('ConvexStorageAdapter (live)', () => {
   });
 
   it('upserts claims idempotently and reads them back', async () => {
-    const t = tenant('a');
-    await adapter.ensureTenant({ tenant: t });
-    const claim = makeClaim(t.tenantId);
-    expect((await adapter.upsertClaim({ tenant: t, claim })).created).toBe(true);
-    expect((await adapter.upsertClaim({ tenant: t, claim })).created).toBe(false);
-    expect((await adapter.getClaim({ tenant: t, claimId: claim.claimId }))?.subject).toBe('Acme');
+    const tenantContext = tenant('a');
+    await adapter.ensureTenant({ tenant: tenantContext });
+    const claim = makeClaim(tenantContext.tenantId);
+    expect((await adapter.upsertClaim({ tenant: tenantContext, claim })).created).toBe(true);
+    expect((await adapter.upsertClaim({ tenant: tenantContext, claim })).created).toBe(false);
+    expect(
+      (await adapter.getClaim({ tenant: tenantContext, claimId: claim.claimId }))?.subject,
+    ).toBe('Acme');
   });
 
   it('never returns another tenant’s records', async () => {
@@ -88,45 +92,54 @@ describe.skipIf(!live)('ConvexStorageAdapter (live)', () => {
   });
 
   it('orders vector search by cosine similarity via the action', async () => {
-    const t = tenant('vec');
-    const near = makeClaim(t.tenantId, { claimText: 'near' });
-    const far = makeClaim(t.tenantId, { claimText: 'far' });
-    await adapter.upsertClaim({ tenant: t, claim: near, embedding: unitVector(0) });
-    await adapter.upsertClaim({ tenant: t, claim: far, embedding: unitVector(7) });
+    const tenantContext = tenant('vec');
+    const near = makeClaim(tenantContext.tenantId, { claimText: 'near' });
+    const far = makeClaim(tenantContext.tenantId, { claimText: 'far' });
+    await adapter.upsertClaim({ tenant: tenantContext, claim: near, embedding: unitVector(0) });
+    await adapter.upsertClaim({ tenant: tenantContext, claim: far, embedding: unitVector(7) });
     const results = await adapter.searchClaims({
-      tenant: t,
+      tenant: tenantContext,
       queryVector: unitVector(0),
       limit: 2,
     });
-    expect(results.map((c) => c.claimId)).toEqual([near.claimId, far.claimId]);
+    expect(results.map((claim) => claim.claimId)).toEqual([near.claimId, far.claimId]);
   });
 
   it('runs the run / edge / curation / kb / override flows', async () => {
-    const t = tenant('flow');
-    const run = await adapter.createRun({ tenant: t, runId: 'r1', subject: 'Acme' });
+    const tenantContext = tenant('flow');
+    const run = await adapter.createRun({ tenant: tenantContext, runId: 'r1', subject: 'Acme' });
     expect(run.status).toBe('running');
-    await adapter.completeRun({ tenant: t, runId: 'r1' });
+    await adapter.completeRun({ tenant: tenantContext, runId: 'r1' });
 
     const edge: Edge = {
-      tenantId: t.tenantId,
+      tenantId: tenantContext.tenantId,
       srcId: 'claim:0000000000000001',
       dstId: 'claim:0000000000000002',
       kind: 'reinforces',
       attributes: {},
     };
-    expect((await adapter.upsertEdge({ tenant: t, edge })).created).toBe(true);
-    expect((await adapter.upsertEdge({ tenant: t, edge })).created).toBe(false);
+    expect((await adapter.upsertEdge({ tenant: tenantContext, edge })).created).toBe(true);
+    expect((await adapter.upsertEdge({ tenant: tenantContext, edge })).created).toBe(false);
 
-    const claim = makeClaim(t.tenantId);
-    await adapter.createCurationSuggestion({ tenant: t, suggestionId: 's1', claim });
-    await adapter.decideSuggestion({ tenant: t, suggestionId: 's1', status: 'approved' });
-    await adapter.upsertKbEntry({ tenant: t, entryId: 'e1', claim, action: 'approved' });
-    const entries = await adapter.listKbEntries({ tenant: t, subject: 'Acme' });
+    const claim = makeClaim(tenantContext.tenantId);
+    await adapter.createCurationSuggestion({ tenant: tenantContext, suggestionId: 's1', claim });
+    await adapter.decideSuggestion({
+      tenant: tenantContext,
+      suggestionId: 's1',
+      status: 'approved',
+    });
+    await adapter.upsertKbEntry({
+      tenant: tenantContext,
+      entryId: 'e1',
+      claim,
+      action: 'approved',
+    });
+    const entries = await adapter.listKbEntries({ tenant: tenantContext, subject: 'Acme' });
     expect(entries).toHaveLength(1);
     expect(entries[0]?.status).toBe('approved');
 
     await adapter.recordVerificationOverride({
-      tenant: t,
+      tenant: tenantContext,
       claimId: claim.claimId,
       verdict: 'green',
       reason: 'verified',

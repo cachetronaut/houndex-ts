@@ -1,3 +1,4 @@
+import type { TenantContext } from '@houndex/core';
 import { type Claim, computeClaimId } from '@houndex/core';
 import { convexTest } from 'convex-test';
 import { describe, expect, it } from 'vitest';
@@ -7,7 +8,7 @@ import { type ConvexClientLike, ConvexStorageAdapter } from './convexStorageAdap
 // Glob the Convex function modules so convex-test can load them in-memory.
 const modules = import.meta.glob('../convex/**/*.ts');
 
-function tenant(id = 'primary') {
+function tenant(id = 'primary'): TenantContext {
   return { tenantId: id, userId: `user_${id}`, role: 'admin' as const };
 }
 
@@ -34,16 +35,18 @@ function makeClaim(overrides: Partial<Claim> = {}): Claim {
 }
 
 function makeAdapter(): ConvexStorageAdapter {
-  const t = convexTest(schema, modules);
-  return new ConvexStorageAdapter(t as unknown as ConvexClientLike);
+  const convexHarness = convexTest(schema, modules);
+  return new ConvexStorageAdapter(convexHarness as unknown as ConvexClientLike);
 }
 
 // A deterministic 1536-d (the schema's vector dimension) unit vector that leans
 // on dimension `seed`, so two different seeds are far apart in cosine space.
 function unitVector(seed: number): number[] {
-  const raw = Array.from({ length: 1536 }, (_, i) => (i === seed % 1536 ? 1 : 0.01));
-  const norm = Math.sqrt(raw.reduce((acc, x) => acc + x * x, 0));
-  return raw.map((x) => x / norm);
+  const components = Array.from({ length: 1536 }, (_, index) => (index === seed % 1536 ? 1 : 0.01));
+  const magnitude = Math.sqrt(
+    components.reduce((sum, component) => sum + component * component, 0),
+  );
+  return components.map((component) => component / magnitude);
 }
 
 describe('ConvexStorageAdapter', () => {
