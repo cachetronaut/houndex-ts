@@ -11,6 +11,9 @@ Deterministic source connectors that feed the ingestion pipeline.
   fetcher and yields one page per successful response.
 - **GitHubConnector** — lists repository files through an injected GitHub client
   and yields one page per matching text file.
+- **DocsConnector** — crawls a documentation site from one seed (a `sitemap.xml`
+  or an HTML index/nav page), filters to same-origin and an optional path
+  prefix, then fetches the pages through the same fetcher as `WebConnector`.
 - **ingestConnector** — drains connector pages through
   `@houndex/pipeline`'s `processPages`, with optional source persistence.
 
@@ -32,5 +35,6 @@ const repo = new GitHubConnector({ repository: { owner: 'octo', repo: 'repo' } }
 ```
 
 The file connector is offline and deterministic. `WebConnector` does not crawl:
-it fetches only the URLs supplied. `GitHubConnector` reads repository files only;
-issues, pull requests, and docs-site crawling are follow-up slices.
+it fetches only the URLs supplied. `DocsConnector` reads exactly one seed and
+does not follow links recursively. `GitHubConnector` reads repository files only;
+issues and pull requests are follow-up slices.

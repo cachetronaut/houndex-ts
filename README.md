@@ -109,7 +109,7 @@ Verification in Houndex is evidence-relative. It can tell you whether an answer 
 | `@houndex/storage-convex` | Active | Convex adapter (vector index + tenant-scoped search action) |
 | `@houndex/evals` | Active | Regression harness: fixture schema, envelope rubric scoring, reports |
 | `@houndex/cli` | Active | `init`, `doctor`, `ingest`, `ask`, `verify`, `eval` over a configured adapter |
-| `@houndex/connectors` | Active (MVP) | Deterministic source connectors for files, explicit web URLs, and GitHub repositories |
+| `@houndex/connectors` | Active | Deterministic source connectors for files, explicit web URLs, GitHub repositories, and documentation sites |
 | `@houndex/surface-next` | Planned | Optional Next.js curation, provenance, and citation review UI |
 
 Every Active package is implemented in both TypeScript and Python. Shared parity
@@ -181,16 +181,15 @@ Shipped, in both TypeScript and Python:
 
 - `core` contracts, the deterministic `pipeline`, three storage adapters
   (`storage-local`, `storage-supabase`, `storage-convex`), the `evals` harness,
-  and the `cli`.
+  the `cli`, and `connectors` for files, explicit web URLs, GitHub repositories,
+  and documentation sites.
 
 Planned, in roughly this order:
 
-1. Expand `@houndex/connectors` with the Python GitHub mirror and docs-site
-   crawling.
-2. `@houndex/surface-next` — an optional Next.js application for curating claims,
+1. `@houndex/surface-next` — an optional Next.js application for curating claims,
    reviewing provenance, and inspecting citations on synthetic data. TypeScript
    only.
-3. Publishing to npm and PyPI, with semantic-versioned releases.
+2. Publishing to npm and PyPI, with semantic-versioned releases.
 
 ## Development
 
