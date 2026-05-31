@@ -48,7 +48,7 @@ export function computeEnrichment(input: {
     const tier = edge.attributes?.tier;
     if (tier !== undefined) distribution[tier] = (distribution[tier] ?? 0) + 1;
   }
-  const sourceCount = Object.values(distribution).reduce((a, b) => a + b, 0);
+  const sourceCount = Object.values(distribution).reduce((sum, count) => sum + count, 0);
 
   return EnrichmentSchema.parse({
     corroborationCount: sortedNumberRecord<EdgeKind>(corroboration),

@@ -35,13 +35,13 @@ export function syntheticEmbedder(dimensions: number): Embedder {
     dimensions,
     embed(text: string): number[] {
       let state = fnv1a32(text) || 1;
-      const vec = new Array<number>(dimensions);
-      for (let i = 0; i < dimensions; i++) {
+      const vector = new Array<number>(dimensions);
+      for (let index = 0; index < dimensions; index++) {
         state = (Math.imul(LCG_MULT, state) + LCG_INC) >>> 0;
-        vec[i] = (state / UINT32) * 2 - 1;
+        vector[index] = (state / UINT32) * 2 - 1;
       }
-      const norm = Math.sqrt(vec.reduce((acc, x) => acc + x * x, 0)) || 1;
-      return vec.map((x) => x / norm);
+      const norm = Math.sqrt(vector.reduce((sum, value) => sum + value * value, 0)) || 1;
+      return vector.map((value) => value / norm);
     },
   };
 }

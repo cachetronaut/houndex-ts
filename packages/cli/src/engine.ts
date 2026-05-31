@@ -79,15 +79,15 @@ export function buildAnswerEnvelope(
   return AnswerEnvelopeSchema.parse({
     tenantId,
     generatedAt,
-    trace: claims.map((c) => ({
-      claimId: c.claimId,
+    trace: claims.map((claim) => ({
+      claimId: claim.claimId,
       mechanism: 'vector_search',
       semanticScore: null,
     })),
     payload: {
       query,
-      answer: claims.map((c) => c.claimText).join(' '),
-      citations: claims.map((c) => c.claimId),
+      answer: claims.map((claim) => claim.claimText).join(' '),
+      citations: claims.map((claim) => claim.claimId),
     },
   });
 }
@@ -118,5 +118,5 @@ export async function resolveGraph(
 ): Promise<GraphState> {
   if (claimIds !== undefined) return { claimIds };
   const claims = await adapter.searchClaims({ tenant });
-  return { claimIds: claims.map((c) => c.claimId) };
+  return { claimIds: claims.map((claim) => claim.claimId) };
 }

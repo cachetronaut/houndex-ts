@@ -313,12 +313,12 @@ export class SupabaseStorageAdapter implements StorageAdapter {
     if (input.subject !== undefined) filters.push(['subject', input.subject]);
     if (input.category !== undefined) filters.push(['category', input.category]);
     const rows = await this.expect(this.filtered(TABLE.kb, filters));
-    return rows.map((r) => ({
-      tenantId: r.tenant_id as string,
-      entryId: r.entry_id as string,
-      claim: r.claim as Claim,
-      status: r.status as KbEntryRecord['status'],
-      updatedAt: r.updated_at as number,
+    return rows.map((row) => ({
+      tenantId: row.tenant_id as string,
+      entryId: row.entry_id as string,
+      claim: row.claim as Claim,
+      status: row.status as KbEntryRecord['status'],
+      updatedAt: row.updated_at as number,
     }));
   }
 

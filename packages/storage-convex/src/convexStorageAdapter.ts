@@ -140,20 +140,20 @@ export class ConvexStorageAdapter implements StorageAdapter {
   }
 
   async upsertClaim(input: UpsertClaimInput): Promise<UpsertResult> {
-    const c = input.claim;
+    const claim = input.claim;
     return await this.client.mutation(api.claims.upsertClaim, {
       tenant: input.tenant,
-      claimId: c.claimId,
-      subject: c.subject,
-      category: c.category,
-      polarity: c.polarity,
-      scope: c.scope,
-      claimText: c.claimText,
-      evidenceText: c.evidenceText,
-      confidence: c.confidence,
-      sourceUrl: c.sourceUrl,
-      sourceTier: c.sourceTier,
-      extractedAt: c.extractedAt,
+      claimId: claim.claimId,
+      subject: claim.subject,
+      category: claim.category,
+      polarity: claim.polarity,
+      scope: claim.scope,
+      claimText: claim.claimText,
+      evidenceText: claim.evidenceText,
+      confidence: claim.confidence,
+      sourceUrl: claim.sourceUrl,
+      sourceTier: claim.sourceTier,
+      extractedAt: claim.extractedAt,
       embedding: input.embedding ? Array.from(input.embedding) : undefined,
     });
   }

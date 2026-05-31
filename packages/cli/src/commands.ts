@@ -125,7 +125,7 @@ export async function ask(
   if (args.json) {
     return { code: 0, output: JSON.stringify({ envelope, verdict: score }) };
   }
-  const citations = claims.map((c) => `  - ${c.claimId}  ${c.claimText}`).join('\n');
+  const citations = claims.map((claim) => `  - ${claim.claimId}  ${claim.claimText}`).join('\n');
   const body = claims.length === 0 ? '(no matching claims)' : envelope.payload.answer;
   return {
     code: 0,
@@ -157,7 +157,7 @@ export async function verify(
       `  envelopeValidity: ${score.envelopeValidity.toFixed(3)}`,
       `  determinism:      ${score.determinism === null ? '—' : score.determinism.toFixed(3)}`,
       `  total:            ${score.total.toFixed(3)}`,
-      ...score.notes.map((n) => `  · ${n}`),
+      ...score.notes.map((note) => `  · ${note}`),
     ].join('\n'),
   };
 }
@@ -174,9 +174,9 @@ export async function evaluate(
   },
 ): Promise<CommandResult> {
   const graph = await resolveGraph(deps.adapter, tenantOf(deps.config), args.claimIds);
-  const results: FixtureResult[] = args.cases.map((c) => ({
-    name: c.fixture.name,
-    score: scoreEnvelope(c.fixture, c.envelope, graph),
+  const results: FixtureResult[] = args.cases.map((evalCase) => ({
+    name: evalCase.fixture.name,
+    score: scoreEnvelope(evalCase.fixture, evalCase.envelope, graph),
   }));
   const aggregate =
     results.length === 0 ? 0 : results.reduce((acc, r) => acc + r.score.total, 0) / results.length;
@@ -189,7 +189,7 @@ export async function evaluate(
       output: JSON.stringify({
         aggregate,
         threshold: args.threshold ?? null,
-        results: results.map((r) => ({ name: r.name, ...r.score })),
+        results: results.map((result) => ({ name: result.name, ...result.score })),
       }),
     };
   }

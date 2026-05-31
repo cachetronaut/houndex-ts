@@ -48,11 +48,19 @@ export function canonicalizeUrl(url: string): string {
   for (const [key, value] of parsed.searchParams.entries()) {
     if (!TRACKING_PARAMS.has(key.toLowerCase())) kept.push([key, value]);
   }
-  kept.sort((a, b) =>
-    a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0,
+  kept.sort(([leftKey, leftValue], [rightKey, rightValue]) =>
+    leftKey < rightKey
+      ? -1
+      : leftKey > rightKey
+        ? 1
+        : leftValue < rightValue
+          ? -1
+          : leftValue > rightValue
+            ? 1
+            : 0,
   );
   const query = kept
-    .map(([k, vv]) => `${encodeURIComponent(k)}=${encodeURIComponent(vv)}`)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
     .join('&');
 
   return query === '' ? `${scheme}://${host}${path}` : `${scheme}://${host}${path}?${query}`;

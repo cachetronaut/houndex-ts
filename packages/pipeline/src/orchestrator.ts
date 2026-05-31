@@ -99,11 +99,11 @@ export async function runIngestion(
   };
 
   const scraped = await Promise.all(
-    unique.map(async (r) => {
+    unique.map(async (source) => {
       try {
-        return await deps.scrape.scrape(r.url);
+        return await deps.scrape.scrape(source.url);
       } catch (error) {
-        deps.onPageError?.({ sourceUrl: r.url, error });
+        deps.onPageError?.({ sourceUrl: source.url, error });
         return null;
       }
     }),
@@ -125,8 +125,8 @@ export async function runIngestion(
   const concurrency = Math.max(1, deps.extractionConcurrency ?? DEFAULT_EXTRACTION_CONCURRENCY);
   const sinkable: PageOutcome[] = [];
 
-  for (let i = 0; i < pages.length; i += concurrency) {
-    const batch = pages.slice(i, i + concurrency);
+  for (let offset = 0; offset < pages.length; offset += concurrency) {
+    const batch = pages.slice(offset, offset + concurrency);
     const outcomes = await Promise.all(
       batch.map(async (page): Promise<PageOutcome | null> => {
         const sourceTier = deps.classifier.classify(page.sourceUrl, input.subject);

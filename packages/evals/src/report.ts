@@ -14,7 +14,7 @@ function fmt(value: number | null): string {
 }
 
 export function formatReport(results: readonly FixtureResult[]): string {
-  const passed = results.filter((r) => r.score.passed).length;
+  const passed = results.filter((result) => result.score.passed).length;
   const lines: string[] = [
     `# Regression report`,
     ``,

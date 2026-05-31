@@ -66,17 +66,17 @@ function emptyTenantStore(): TenantStore {
   };
 }
 
-function cosineSimilarity(a: readonly number[], b: readonly number[]): number {
+function cosineSimilarity(vectorA: readonly number[], vectorB: readonly number[]): number {
   let dot = 0;
   let normA = 0;
   let normB = 0;
-  const len = Math.min(a.length, b.length);
-  for (let i = 0; i < len; i += 1) {
-    const x = a[i] as number;
-    const y = b[i] as number;
-    dot += x * y;
-    normA += x * x;
-    normB += y * y;
+  const length = Math.min(vectorA.length, vectorB.length);
+  for (let index = 0; index < length; index += 1) {
+    const left = vectorA[index] as number;
+    const right = vectorB[index] as number;
+    dot += left * right;
+    normA += left * left;
+    normB += right * right;
   }
   if (normA === 0 || normB === 0) return 0;
   return dot / (Math.sqrt(normA) * Math.sqrt(normB));
@@ -171,7 +171,7 @@ export class LocalStorageAdapter implements StorageAdapter {
           entry,
           score: entry.embedding ? cosineSimilarity(query, entry.embedding) : -1,
         }))
-        .sort((a, b) => b.score - a.score)
+        .sort((first, second) => second.score - first.score)
         .map((scored) => scored.entry);
     }
 
