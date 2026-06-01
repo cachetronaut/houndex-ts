@@ -86,7 +86,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "houndex": "./dist/bin/houndex.mjs"
+    "houndex": "dist/bin/houndex.mjs"
   },
   "files": [
     "dist",
