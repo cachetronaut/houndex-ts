@@ -4,7 +4,7 @@
  * unique-by-canonical-URL preserving first-seen order.
  */
 
-import { canonicalizeUrl, sha256Hex } from '@houndex/core';
+import { canonicalizeUrl, sha256Hex } from 'houndex/core';
 
 export function contentHash(text: string): string {
   return sha256Hex(text);

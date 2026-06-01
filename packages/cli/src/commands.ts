@@ -9,8 +9,8 @@
  * for the shell to write — so it stays pure.
  */
 
-import type { StorageAdapter, TenantContext } from '@houndex/core';
-import { type EvalFixture, type FixtureResult, formatReport, scoreEnvelope } from '@houndex/evals';
+import type { StorageAdapter, TenantContext } from 'houndex/core';
+import { type EvalFixture, type FixtureResult, formatReport, scoreEnvelope } from 'houndex/evals';
 import { missingEnv } from './adapterFactory.js';
 import { type AdapterName, defaultConfig, type HoundexConfig } from './config.js';
 import type { Embedder } from './embedder.js';

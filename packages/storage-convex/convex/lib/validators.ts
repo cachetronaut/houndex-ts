@@ -1,5 +1,5 @@
 /**
- * Bridges the @houndex/core taxonomy value-arrays into Convex `v.union`
+ * Bridges the houndex/core taxonomy value-arrays into Convex `v.union`
  * literals so the closed vocabularies are declared exactly once (in core) and
  * the Convex schema derives from them — no duplicated literal lists.
  */

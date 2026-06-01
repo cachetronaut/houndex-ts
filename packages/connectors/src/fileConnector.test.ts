@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { SourceTierClassifier } from '@houndex/pipeline';
+import { SourceTierClassifier } from 'houndex/pipeline';
 import { describe, expect, it } from 'vitest';
 import { ingestConnector, type SourceDraft } from './connector.js';
 import { FileConnector } from './fileConnector.js';

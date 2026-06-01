@@ -1,5 +1,5 @@
-import { canonicalizeUrl, SOURCE_TIER_VALUES, sourceNodeId } from '@houndex/core';
 import { v } from 'convex/values';
+import { canonicalizeUrl, SOURCE_TIER_VALUES, sourceNodeId } from 'houndex/core';
 import { literalUnion } from './lib/validators';
 import { mutationWithTenant } from './lib/withTenant';
 

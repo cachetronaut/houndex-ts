@@ -1,4 +1,4 @@
-import type { ScrapedPage } from '@houndex/core';
+import type { ScrapedPage } from 'houndex/core';
 import type { Connector } from './connector.js';
 
 const DEFAULT_INCLUDE = ['.md', '.txt', '.json'] as const;

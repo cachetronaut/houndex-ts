@@ -6,6 +6,7 @@
  * call forwards it as the `tenant` argument the functions validate.
  */
 
+import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server';
 import type {
   Claim,
   ClaimSearchInput,
@@ -27,8 +28,7 @@ import type {
   UpsertResult,
   UpsertSourceInput,
   VerificationOverrideInput,
-} from '@houndex/core';
-import type { FunctionArgs, FunctionReference, FunctionReturnType } from 'convex/server';
+} from 'houndex/core';
 import { api } from '../convex/_generated/api.js';
 
 /** Minimal structural client — satisfied by `ConvexHttpClient` and `convex-test`. */

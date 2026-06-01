@@ -1,6 +1,6 @@
-# @houndex/pipeline
+# houndex/pipeline
 
-Deterministic ingestion and enrichment transforms built on `@houndex/core`. The
+Deterministic ingestion and enrichment transforms built on `houndex/core`. The
 same input always produces the same output, so the pipeline is testable and its
 results are reproducible.
 
@@ -24,7 +24,7 @@ results are reproducible.
 ## Usage
 
 ```ts
-import { runIngestion } from '@houndex/pipeline';
+import { runIngestion } from 'houndex/pipeline';
 
 const result = await runIngestion(input, deps);
 ```

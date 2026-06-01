@@ -1,4 +1,4 @@
-# @houndex/core
+# houndex/core
 
 The contracts every other Houndex package depends on: schemas, identity, the
 output envelope, tenant context, provider ports, and the storage adapter
@@ -27,7 +27,7 @@ database or model provider.
 ## Usage
 
 ```ts
-import { computeClaimId, outputEnvelopeSchema, TenantRole } from '@houndex/core';
+import { computeClaimId, outputEnvelopeSchema, TenantRole } from 'houndex/core';
 
 const claimId = computeClaimId({
   tenantId: 'acme',

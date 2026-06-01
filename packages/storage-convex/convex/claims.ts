@@ -1,11 +1,11 @@
+import { v } from 'convex/values';
 import {
   CATEGORY_VALUES,
   CONFIDENCE_VALUES,
   POLARITY_VALUES,
   SCOPE_VALUES,
   SOURCE_TIER_VALUES,
-} from '@houndex/core';
-import { v } from 'convex/values';
+} from 'houndex/core';
 import { internal } from './_generated/api';
 import type { Doc } from './_generated/dataModel';
 import { internalQuery } from './_generated/server';

@@ -1,6 +1,6 @@
-# @houndex/storage-local
+# houndex/storage/local
 
-Zero-service, in-memory implementation of the `@houndex/core` `StorageAdapter`
+Zero-service, in-memory implementation of the `houndex/core` `StorageAdapter`
 contract. It needs no database, so it is ideal for tests, local development, and
 as the conformance reference other adapters are checked against.
 
@@ -15,12 +15,12 @@ as the conformance reference other adapters are checked against.
   the database-backed adapters.
 
 State lives only in the process and is lost when it exits. For persistence across
-runs, use `@houndex/storage-supabase` or `@houndex/storage-convex`.
+runs, use `houndex/storage/supabase` or `houndex/storage/convex`.
 
 ## Usage
 
 ```ts
-import { LocalStorageAdapter } from '@houndex/storage-local';
+import { LocalStorageAdapter } from 'houndex/storage/local';
 
 const adapter = new LocalStorageAdapter();
 await adapter.ensureTenant({ tenant });

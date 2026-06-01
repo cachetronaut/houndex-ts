@@ -1,6 +1,6 @@
-import type { TenantContext } from '@houndex/core';
-import { type Claim, computeClaimId } from '@houndex/core';
 import { convexTest } from 'convex-test';
+import type { TenantContext } from 'houndex/core';
+import { type Claim, computeClaimId } from 'houndex/core';
 import { describe, expect, it } from 'vitest';
 import schema from '../convex/schema.js';
 import { type ConvexClientLike, ConvexStorageAdapter } from './convexStorageAdapter.js';

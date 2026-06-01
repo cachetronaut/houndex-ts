@@ -1,4 +1,4 @@
-import { canonicalizeUrl, type ScrapedPage } from '@houndex/core';
+import { canonicalizeUrl, type ScrapedPage } from 'houndex/core';
 import type { Connector } from './connector.js';
 
 const DEFAULT_CONCURRENCY = 4;

@@ -104,33 +104,41 @@ Verification in Houndex is evidence-relative. It can tell you whether an answer 
 
 ## Package status
 
-| Package | Status | Purpose |
+| Entry point | Status | Purpose |
 |---|---|---|
-| `@houndex/core` | Active | Schemas, output envelopes, claims, evidence, traces, provider ports, storage contracts |
-| `@houndex/pipeline` | Active | Deterministic ingestion/enrichment: chunking, dedupe, source tiering, claim assembly |
-| `@houndex/storage-local` | Active | Zero-service in-memory reference adapter |
-| `@houndex/storage-supabase` | Active | Postgres + pgvector adapter (HNSW cosine search, RLS) |
-| `@houndex/storage-convex` | Active | Convex adapter (vector index + tenant-scoped search action) |
-| `@houndex/evals` | Active | Regression harness: fixture schema, envelope rubric scoring, reports |
-| `@houndex/cli` | Active | `init`, `doctor`, `ingest`, `ask`, `verify`, `eval` over a configured adapter |
-| `@houndex/connectors` | Active | Deterministic source connectors for files, explicit web URLs, GitHub repositories, and documentation sites |
-| `@houndex/surface-next` | Active | Optional Next.js curation, provenance, and citation review UI |
+| `houndex/core` | Active | Schemas, output envelopes, claims, evidence, traces, provider ports, storage contracts |
+| `houndex/pipeline` | Active | Deterministic ingestion/enrichment: chunking, dedupe, source tiering, claim assembly |
+| `houndex/storage/local` | Active | Zero-service in-memory reference adapter |
+| `houndex/storage/supabase` | Active | Postgres + pgvector adapter (HNSW cosine search, RLS) |
+| `houndex/storage/convex` | Active | Convex adapter (vector index + tenant-scoped search action) |
+| `houndex/evals` | Active | Regression harness: fixture schema, envelope rubric scoring, reports |
+| `houndex/cli` | Active | `init`, `doctor`, `ingest`, `ask`, `verify`, `eval` over a configured adapter |
+| `houndex/connectors` | Active | Deterministic source connectors for files, explicit web URLs, GitHub repositories, and documentation sites |
+| `packages/surface-next` | Repo app | Optional Next.js curation, provenance, and citation review UI |
 
 The core framework packages are implemented in both TypeScript and Python.
 Shared parity fixtures keep claim identity, canonical JSON, and the synthetic
 embedder byte-for-byte identical across the two languages. Surface packages are
-language-specific.
+language-specific. The npm package is published as one package, `houndex`, with
+subpath exports for the modules above.
 
 ## Quickstart
 
-The packages are not yet published to npm. Run them from a clone of this
-repository.
+Install the framework with your package manager:
 
 ```bash
-git clone https://github.com/cachetronaut/houndex-ts
-cd houndex-ts
-pnpm install
-pnpm verify
+npm install houndex
+pnpm add houndex
+bun add houndex
+```
+
+The local adapter and core evaluation path need no external service. Storage
+providers are npm optional-peer style: install `houndex` plus the SDK for the
+provider you use.
+
+```bash
+npm install houndex @supabase/supabase-js
+npm install houndex convex convex-helpers
 ```
 
 Verify a model answer against an evidence store with the CLI. The CLI reads
@@ -138,8 +146,8 @@ Verify a model answer against an evidence store with the CLI. The CLI reads
 services:
 
 ```bash
-pnpm --filter @houndex/cli run houndex -- init
-pnpm --filter @houndex/cli run houndex -- verify answer.json
+npx houndex init
+npx houndex verify answer.json
 ```
 
 `verify` checks that the answer envelope is schema-valid and that every cited
@@ -147,9 +155,17 @@ claim resolves to a stored claim. It exits `0` when the answer is grounded, `1`
 when a citation does not resolve or the envelope is invalid, and `2` on an
 operational error such as a missing file. Use the exit code as a CI gate.
 
-In application code, call the same engine in-process on each answer through
-`@houndex/evals` (`scoreEnvelope`). The CLI and the library share one engine, so
-their verdicts are identical.
+In application code, import only the surface you need:
+
+```ts
+import { computeClaimId } from 'houndex/core';
+import { scoreEnvelope } from 'houndex/evals';
+import { LocalStorageAdapter } from 'houndex/storage/local';
+```
+
+Call the same engine in-process on each answer through `houndex/evals`
+(`scoreEnvelope`). The CLI and the library share one engine, so their verdicts
+are identical.
 
 ## Design principles
 
@@ -191,7 +207,7 @@ Shipped, in both TypeScript and Python:
 
 Planned, in roughly this order:
 
-1. Publishing to npm and PyPI, with semantic-versioned releases.
+1. Release automation for npm to match the PyPI trusted-publisher flow.
 
 ## Development
 
@@ -200,12 +216,15 @@ Requires Node 24 (pinned in `.nvmrc`) and pnpm 9.
 ```bash
 pnpm install
 pnpm verify
+pnpm build
 ```
 
 `pnpm verify` runs the full local gate: `pnpm check` (Biome lint and format),
 `pnpm typecheck` (`tsc --noEmit`, strict), and `pnpm test` (Vitest). Run
 `node scripts/cleanroom-guard.mjs` to confirm no origin-specific terms appear in
-tracked files.
+tracked files. `pnpm build` emits compiled JavaScript, declaration files, source
+maps, and the `houndex` CLI executable into `dist/`; `npm pack` and
+`npm publish` run this build before packaging.
 
 The Supabase and Convex adapters carry live integration tests that are skipped
 unless their environment is configured:

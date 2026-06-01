@@ -1,8 +1,8 @@
-# @houndex/evals
+# houndex/evals
 
 The verification engine: a deterministic, in-process rubric that scores an
 `OutputEnvelope` against an evidence store. This is the per-transaction verifier
-a pipeline calls on each answer. The `@houndex/cli` `verify` and `eval` commands
+a pipeline calls on each answer. The `houndex/cli` `verify` and `eval` commands
 wrap this same engine, so a CLI verdict and a library verdict are identical.
 
 ## What it provides
@@ -22,7 +22,7 @@ wrap this same engine, so a CLI verdict and a library verdict are identical.
 ## Usage
 
 ```ts
-import { scoreEnvelope } from '@houndex/evals';
+import { scoreEnvelope } from 'houndex/evals';
 
 const score = scoreEnvelope(fixture, answerEnvelope, { claimIds });
 if (!score.passed) {

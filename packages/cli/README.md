@@ -1,8 +1,8 @@
-# @houndex/cli
+# houndex/cli
 
 The `houndex` command — the **operator + CI surface** for the verification
 engine. It does no verification itself: it loads config, builds the configured
-`StorageAdapter`, and delegates to the same `@houndex/core` + `@houndex/evals`
+`StorageAdapter`, and delegates to the same `houndex/core` + `houndex/evals`
 engine your pipeline calls in-process. (Per-transaction verification belongs in
 the library, on the hot path; the CLI is for setup, ingestion, and CI gates.)
 
@@ -66,5 +66,5 @@ integer-exact and shared with the Python CLI, so vectors match across languages.
 
 - Ships TypeScript sources; the `houndex` bin runs them through the `tsx` loader
   (no build step, consistent with the rest of the workspace).
-- Library entry (`@houndex/cli`) re-exports the config, embedder, adapter
+- Library entry (`houndex/cli`) re-exports the config, embedder, adapter
   factory, engine helpers, and command handlers for embedding in other tools.

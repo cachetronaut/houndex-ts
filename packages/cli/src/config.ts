@@ -5,7 +5,7 @@
  * config file is safe to commit.
  */
 
-import { TenantRole } from '@houndex/core';
+import { TenantRole } from 'houndex/core';
 import { z } from 'zod';
 
 export const CONFIG_FILENAME = 'houndex.config.json';

@@ -1,4 +1,4 @@
-import type { Claim } from '@houndex/core';
+import type { Claim } from 'houndex/core';
 
 export type ReviewDecision = 'pending' | 'approved' | 'rejected';
 

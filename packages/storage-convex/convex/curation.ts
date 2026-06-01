@@ -1,5 +1,5 @@
-import { CURATION_STATUS_VALUES } from '@houndex/core';
 import { v } from 'convex/values';
+import { CURATION_STATUS_VALUES } from 'houndex/core';
 import { literalUnion } from './lib/validators';
 import { mutationWithTenant } from './lib/withTenant';
 

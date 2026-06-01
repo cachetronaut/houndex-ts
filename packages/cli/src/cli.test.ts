@@ -1,6 +1,6 @@
-import { computeClaimId } from '@houndex/core';
-import { EvalFixtureSchema } from '@houndex/evals';
-import { LocalStorageAdapter } from '@houndex/storage-local';
+import { computeClaimId } from 'houndex/core';
+import { EvalFixtureSchema } from 'houndex/evals';
+import { LocalStorageAdapter } from 'houndex/storage/local';
 import { describe, expect, it } from 'vitest';
 import { ask, type CommandDeps, doctor, evaluate, ingest, init, verify } from './commands.js';
 import { defaultConfig, type HoundexConfig } from './config.js';

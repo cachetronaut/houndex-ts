@@ -2,7 +2,7 @@
  * The `StorageAdapter` contract — the single seam that decouples the framework
  * from any particular database. Every method takes a `TenantContext`, so a
  * conforming adapter scopes all reads and writes to a tenant by construction.
- * Implementations live in adapter packages (`@houndex/storage-*`); the
+ * Implementations live in adapter packages (`houndex/storage-*`); the
  * pipeline and surfaces depend only on this interface.
  *
  * Records reuse the core schema types so an adapter never invents a parallel

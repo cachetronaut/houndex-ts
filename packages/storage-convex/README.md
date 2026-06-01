@@ -1,4 +1,4 @@
-# @houndex/storage-convex
+# houndex/storage/convex
 
 Convex implementation of the framework `StorageAdapter` contract.
 
@@ -13,7 +13,7 @@ It ships two things:
 
 ```ts
 import { ConvexHttpClient } from 'convex/browser';
-import { ConvexStorageAdapter } from '@houndex/storage-convex';
+import { ConvexStorageAdapter } from 'houndex/storage/convex';
 
 const adapter = new ConvexStorageAdapter(new ConvexHttpClient(process.env.CONVEX_URL!));
 ```
@@ -56,7 +56,7 @@ deployment; regenerate them any time with `pnpm codegen` (or `convex dev`).
   ```bash
   pnpm exec convex dev --once
   export CONVEX_URL=https://<your-deployment>.convex.cloud
-  pnpm --filter @houndex/storage-convex test
+  pnpm --filter houndex/storage/convex test
   ```
 
 ## Notes

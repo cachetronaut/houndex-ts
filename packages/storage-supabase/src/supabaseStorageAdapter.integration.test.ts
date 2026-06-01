@@ -7,7 +7,7 @@
  *   supabase db reset                    # applies supabase/migrations/*.sql
  *   export SUPABASE_URL=http://127.0.0.1:54321
  *   export SUPABASE_SERVICE_ROLE_KEY=<service_role key from `supabase start`>
- *   pnpm --filter @houndex/storage-supabase test
+ *   pnpm --filter houndex/storage/supabase test
  *
  * The service-role key bypasses row-level security; the adapter still filters
  * every query by `tenantId`, so isolation is exercised on that path. Each run
@@ -16,7 +16,7 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import { type Claim, computeClaimId, type Edge, type TenantContext } from '@houndex/core';
+import { type Claim, computeClaimId, type Edge, type TenantContext } from 'houndex/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 import type { SupabaseLike } from './client.js';
 import { SupabaseStorageAdapter } from './supabaseStorageAdapter.js';

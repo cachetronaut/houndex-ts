@@ -21,7 +21,7 @@ import {
   type UpsertResult,
   type UpsertSourceInput,
   type VerificationOverrideInput,
-} from '@houndex/core';
+} from 'houndex/core';
 
 interface StoredClaim {
   claim: Claim;

@@ -1,4 +1,4 @@
-# @houndex/storage-supabase
+# houndex/storage/supabase
 
 Supabase (Postgres + pgvector) implementation of the framework `StorageAdapter`
 contract: tenant-scoped tables (every one keyed by `tenant_id`), a pgvector
@@ -9,7 +9,7 @@ request's `tenant_id` JWT claim. Every query the adapter issues filters by
 
 ```ts
 import { createClient } from '@supabase/supabase-js';
-import { SupabaseStorageAdapter, type SupabaseLike } from '@houndex/storage-supabase';
+import { SupabaseStorageAdapter, type SupabaseLike } from 'houndex/storage/supabase';
 
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 const adapter = new SupabaseStorageAdapter(supabase as unknown as SupabaseLike);
@@ -49,5 +49,5 @@ the dimension in the migration to match your model before applying.
   supabase start && supabase db reset
   export SUPABASE_URL=http://127.0.0.1:54321
   export SUPABASE_SERVICE_ROLE_KEY=<service_role key printed by `supabase start`>
-  pnpm --filter @houndex/storage-supabase test
+  pnpm --filter houndex/storage/supabase test
   ```

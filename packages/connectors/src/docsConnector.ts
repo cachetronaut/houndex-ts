@@ -11,7 +11,7 @@
  * and yields zero pages rather than throwing.
  */
 
-import type { ScrapedPage } from '@houndex/core';
+import type { ScrapedPage } from 'houndex/core';
 import type { Connector } from './connector.js';
 import { type Fetcher, WebConnector } from './webConnector.js';
 

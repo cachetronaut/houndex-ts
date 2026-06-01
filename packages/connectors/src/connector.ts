@@ -1,10 +1,10 @@
-import { canonicalizeUrl, extractDomain, type ScrapedPage, type Source } from '@houndex/core';
+import { canonicalizeUrl, extractDomain, type ScrapedPage, type Source } from 'houndex/core';
 import {
   type IngestionInput,
   type IngestionResult,
   type ProcessDeps,
   processPages,
-} from '@houndex/pipeline';
+} from 'houndex/pipeline';
 
 export interface Connector {
   readonly name: string;

@@ -1,16 +1,107 @@
 {
-  "name": "houndex-ts",
-  "version": "0.0.0",
-  "private": true,
+  "name": "houndex",
+  "version": "0.1.0",
   "description": "A storage-decoupled, last-mile RAG framework: typed output envelopes, tenant-aware evidence stores, citation verification, and pluggable storage adapters.",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cachetronaut/houndex-ts.git"
+  },
+  "homepage": "https://github.com/cachetronaut/houndex-ts#readme",
+  "bugs": {
+    "url": "https://github.com/cachetronaut/houndex-ts/issues"
+  },
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
+    },
+    "./core": {
+      "types": "./dist/packages/core/src/index.d.ts",
+      "import": "./dist/packages/core/src/index.js"
+    },
+    "./schemas": {
+      "types": "./dist/packages/core/src/schemas/index.d.ts",
+      "import": "./dist/packages/core/src/schemas/index.js"
+    },
+    "./providers": {
+      "types": "./dist/packages/core/src/providers/index.d.ts",
+      "import": "./dist/packages/core/src/providers/index.js"
+    },
+    "./storage": {
+      "types": "./dist/packages/core/src/storage/index.d.ts",
+      "import": "./dist/packages/core/src/storage/index.js"
+    },
+    "./storage/local": {
+      "types": "./dist/packages/storage-local/src/index.d.ts",
+      "import": "./dist/packages/storage-local/src/index.js"
+    },
+    "./storage/supabase": {
+      "types": "./dist/packages/storage-supabase/src/index.d.ts",
+      "import": "./dist/packages/storage-supabase/src/index.js"
+    },
+    "./storage/convex": {
+      "types": "./dist/packages/storage-convex/src/index.d.ts",
+      "import": "./dist/packages/storage-convex/src/index.js"
+    },
+    "./tenant": {
+      "types": "./dist/packages/core/src/tenant.d.ts",
+      "import": "./dist/packages/core/src/tenant.js"
+    },
+    "./identity": {
+      "types": "./dist/packages/core/src/identity.d.ts",
+      "import": "./dist/packages/core/src/identity.js"
+    },
+    "./models": {
+      "types": "./dist/packages/core/src/models.d.ts",
+      "import": "./dist/packages/core/src/models.js"
+    },
+    "./observability": {
+      "types": "./dist/packages/core/src/observability.d.ts",
+      "import": "./dist/packages/core/src/observability.js"
+    },
+    "./pipeline": {
+      "types": "./dist/packages/pipeline/src/index.d.ts",
+      "import": "./dist/packages/pipeline/src/index.js"
+    },
+    "./evals": {
+      "types": "./dist/packages/evals/src/index.d.ts",
+      "import": "./dist/packages/evals/src/index.js"
+    },
+    "./connectors": {
+      "types": "./dist/packages/connectors/src/index.d.ts",
+      "import": "./dist/packages/connectors/src/index.js"
+    },
+    "./cli": {
+      "types": "./dist/packages/cli/src/index.d.ts",
+      "import": "./dist/packages/cli/src/index.js"
+    },
+    "./cli/engine": {
+      "types": "./dist/packages/cli/src/engine.d.ts",
+      "import": "./dist/packages/cli/src/engine.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "houndex": "./dist/bin/houndex.mjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=24.0.0",
     "pnpm": ">=9.0.0"
   },
   "packageManager": "pnpm@9.12.0",
   "scripts": {
-    "build": "pnpm -r build",
+    "build": "tsc -p tsconfig.build.json && node scripts/build-package-assets.mjs",
+    "prepack": "pnpm build",
+    "prepublishOnly": "pnpm verify",
     "typecheck": "pnpm -r typecheck",
     "lint": "biome lint .",
     "format": "biome format --write .",
@@ -20,12 +111,42 @@
     "cleanroom": "node scripts/cleanroom-guard.mjs",
     "verify": "pnpm check && pnpm typecheck && pnpm test && pnpm cleanroom",
     "changeset": "changeset",
-    "release": "changeset publish"
+    "release": "npm publish"
+  },
+  "dependencies": {
+    "@noble/hashes": "^2.2.0",
+    "commander": "^12.1.0",
+    "zod": "^3.24.1"
+  },
+  "peerDependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "convex": "^1.17.0",
+    "convex-helpers": "^0.1.94"
+  },
+  "peerDependenciesMeta": {
+    "@supabase/supabase-js": {
+      "optional": true
+    },
+    "convex": {
+      "optional": true
+    },
+    "convex-helpers": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
+    "@edge-runtime/vm": "^4.0.0",
+    "@supabase/supabase-js": "^2.45.0",
     "@changesets/cli": "^2.27.0",
     "@types/node": "^22.10.0",
+    "convex": "^1.17.0",
+    "convex-helpers": "^0.1.94",
+    "convex-test": "^0.0.37",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   },
   "pnpm": {

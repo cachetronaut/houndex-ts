@@ -6,7 +6,7 @@
  *
  *   pnpm exec convex dev --once          # logs in, links a dev deployment, pushes
  *   export CONVEX_URL=$(grep CONVEX_DEPLOYMENT .env.local | ...)   # or the dashboard URL
- *   pnpm --filter @houndex/storage-convex test
+ *   pnpm --filter houndex/storage/convex test
  *
  * `convex dev` writes `CONVEX_DEPLOYMENT=dev:<name>` to `.env.local`; the client
  * URL is `https://<name>.convex.cloud`. Each run uses a unique tenant namespace
@@ -14,8 +14,8 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import { type Claim, computeClaimId, type Edge, type TenantContext } from '@houndex/core';
 import { ConvexHttpClient } from 'convex/browser';
+import { type Claim, computeClaimId, type Edge, type TenantContext } from 'houndex/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { type ConvexClientLike, ConvexStorageAdapter } from './convexStorageAdapter.js';
 

@@ -29,7 +29,7 @@ import {
   type UpsertResult,
   type UpsertSourceInput,
   type VerificationOverrideInput,
-} from '@houndex/core';
+} from 'houndex/core';
 import type { FilterChain, Row, SupabaseLike } from './client.js';
 
 const TABLE = {

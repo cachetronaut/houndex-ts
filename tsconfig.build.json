@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "packages/core/src/**/*.ts",
+    "packages/pipeline/src/**/*.ts",
+    "packages/storage-local/src/**/*.ts",
+    "packages/storage-convex/src/**/*.ts",
+    "packages/storage-convex/convex/**/*.ts",
+    "packages/storage-convex/convex/_generated/**/*.js",
+    "packages/storage-supabase/src/**/*.ts",
+    "packages/evals/src/**/*.ts",
+    "packages/cli/src/**/*.ts",
+    "packages/connectors/src/**/*.ts"
+  ],
+  "exclude": ["**/*.test.ts", "node_modules", "dist", "packages/surface-next"]
+}

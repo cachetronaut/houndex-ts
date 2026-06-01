@@ -10,8 +10,8 @@ import {
   outputEnvelopeSchema,
   type StorageAdapter,
   type TenantContext,
-} from '@houndex/core';
-import { type EvalFixture, EvalFixtureSchema, type GraphState } from '@houndex/evals';
+} from 'houndex/core';
+import { type EvalFixture, EvalFixtureSchema, type GraphState } from 'houndex/evals';
 import { z } from 'zod';
 
 /** `verify <file>` input: an answer envelope, optionally with a self-contained claim universe. */

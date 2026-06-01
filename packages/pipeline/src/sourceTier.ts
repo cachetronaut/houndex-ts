@@ -8,7 +8,7 @@
  * `tier_2`; tier_3 list → `tier_3`; otherwise `tier_4`.
  */
 
-import { extractDomain, type SourceTier } from '@houndex/core';
+import { extractDomain, type SourceTier } from 'houndex/core';
 
 export interface SourceTierRubric {
   tier_2_domains?: readonly string[];

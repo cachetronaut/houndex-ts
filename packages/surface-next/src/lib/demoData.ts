@@ -1,6 +1,6 @@
-import { buildAnswerEnvelope, buildClaim, defaultVerifyFixture } from '@houndex/cli/engine';
-import type { Claim } from '@houndex/core';
-import { scoreEnvelope } from '@houndex/evals';
+import { buildAnswerEnvelope, buildClaim, defaultVerifyFixture } from 'houndex/cli/engine';
+import type { Claim } from 'houndex/core';
+import { scoreEnvelope } from 'houndex/evals';
 import type { ReviewItem } from './reviewModel';
 
 const GENERATED_AT = 1_700_000_000_000;

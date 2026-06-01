@@ -1,4 +1,4 @@
-# @houndex/connectors
+# houndex/connectors
 
 Deterministic source connectors that feed the ingestion pipeline.
 
@@ -15,7 +15,7 @@ Deterministic source connectors that feed the ingestion pipeline.
   or an HTML index/nav page), filters to same-origin and an optional path
   prefix, then fetches the pages through the same fetcher as `WebConnector`.
 - **ingestConnector** — drains connector pages through
-  `@houndex/pipeline`'s `processPages`, with optional source persistence.
+  `houndex/pipeline`'s `processPages`, with optional source persistence.
 
 ## Usage
 
@@ -25,7 +25,7 @@ import {
   GitHubConnector,
   WebConnector,
   ingestConnector,
-} from '@houndex/connectors';
+} from 'houndex/connectors';
 
 const connector = new FileConnector({ root: 'docs', baseUrl: 'file://docs' });
 const result = await ingestConnector(connector, { subject: 'Acme' }, deps);
