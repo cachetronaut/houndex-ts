@@ -1,6 +1,6 @@
 {
   "name": "houndex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A storage-decoupled, last-mile RAG framework: typed output envelopes, tenant-aware evidence stores, citation verification, and pluggable storage adapters.",
   "type": "module",
   "license": "MIT",
