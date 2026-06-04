@@ -36,10 +36,17 @@ jobs:
         with:
           version: 9.12.0
 
+      # Note: do NOT set `registry-url` here. It makes setup-node write an .npmrc with a
+      # `_authToken=${NODE_AUTH_TOKEN}` line; with no token that empty credential overrides
+      # OIDC and the publish 404s. Omitting it lets npm use Trusted Publishing (OIDC).
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: "https://registry.npmjs.org"
+
+      # Keyless OIDC Trusted Publishing requires npm >= 11.5.1; the runner's bundled
+      # npm can lag, so pin a known-good newer npm.
+      - name: Upgrade npm for Trusted Publishing
+        run: npm install -g npm@latest
 
       - name: Install
         run: pnpm install --frozen-lockfile
@@ -77,14 +84,17 @@ jobs:
           pnpm build
           npm pack --dry-run
 
+      # Single unscoped package → npm keyless Trusted Publishing (no token). Configure the
+      # repo + this workflow as a trusted publisher for `houndex` on npmjs.com.
+      # Publish BEFORE pushing the release commit/tag so a failed publish leaves no residue.
+      - name: Publish to npm
+        run: npm publish --provenance
+
       - name: Commit version and tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json pnpm-lock.yaml
+          git add package.json
           git commit -m "chore: release ${{ steps.version.outputs.tag }}"
           git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
           git push origin HEAD:main "${{ steps.version.outputs.tag }}"
-
-      - name: Publish to npm
-        run: npm publish
